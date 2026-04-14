@@ -15,12 +15,11 @@ The biggest gain is Phase 1 to Phase 2 (adding `class_weight='balanced'`). Phase
 ## Project Structure
 
 ```
-churn_2602/
-  telco_churn.csv              # Raw dataset
-  Churn_DA.ipynb               # Original analysis (sklearn baselines, no tuning)
-  Churn_DA_advanced.ipynb      # All three phases: baselines → tuned sklearn → XGB/LGB/CatBoost
-README.md                      # This file
-README_learners.md             # Detailed walkthrough of tools and techniques
+telco_churn.csv              # Raw dataset
+Churn_DA.ipynb               # Original analysis (sklearn baselines, no tuning)
+Churn_DA_advanced.ipynb      # All three phases: baselines → tuned sklearn → XGB/LGB/CatBoost
+README.md                    # This file
+README_learners.md           # Detailed walkthrough of tools and techniques
 ```
 
 ## Setup
