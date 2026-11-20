@@ -7,42 +7,39 @@ Predicting which telecom customers are likely to churn using the [Telco Customer
 | Phase | Best Model | ROC-AUC | F1 | Recall | Runtime |
 |-------|-----------|---------|-----|--------|---------|
 | 1 — Baselines | Gradient Boosting | 0.843 | 0.575 | 0.519 | ~2s |
-| 2 — Tuned sklearn | HGB (balanced + tuned) | 0.846 | 0.636 | 0.794 | ~2min |
-| 3 — XGB/LGB/CatBoost | Stacking ensemble | 0.849 | 0.632 | 0.800 | ~7min |
+| 2 — Tuned sklearn | HGB (balanced + tuned) | 0.846 | 0.636 | 0.794 | ~1.5min |
+| 3 — XGB/LGB/CatBoost | Stacking ensemble | 0.849 | 0.632 | 0.800 | ~1.5min |
 
-The biggest gain is Phase 1 to Phase 2 (adding `class_weight='balanced'`). Phase 3 confirms the performance ceiling with diminishing returns.
+The biggest gain is Phase 1 to Phase 2 (adding `class_weight='balanced'`). Phase 3 confirms the performance ceiling with diminishing returns: runtime is similar to Phase 2, but the added complexity (three more libraries, ensembling) buys almost nothing.
+
+Runtimes are from a single full run on a 10-core Mac (about 3 minutes end to end) and vary with machine load.
 
 ## Project Structure
 
 ```
 telco_churn.csv              # Raw dataset
-Churn_DA.ipynb               # Original analysis (sklearn baselines, no tuning)
-Churn_DA_advanced.ipynb      # All three phases: baselines → tuned sklearn → XGB/LGB/CatBoost
+Churn_DA.ipynb               # All three phases: baselines → tuned sklearn → XGB/LGB/CatBoost
+requirements.txt             # Pinned dependencies (pip install -r requirements.txt)
 README.md                    # This file
-README_learners.md           # Detailed walkthrough of tools and techniques
 ```
 
 ## Setup
 
 ```bash
-# Create and activate the environment
-conda create -n data_churn python=3.11 -y
-conda activate data_churn
+# Create and activate a virtual environment (Python 3.11+)
+python3 -m venv .venv
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
 
-# Install dependencies
-pip install pandas numpy scikit-learn matplotlib seaborn \
-    xgboost lightgbm catboost optuna imbalanced-learn \
-    ipykernel jupyter shap scipy
+# Install pinned dependencies
+pip install -r requirements.txt
 
-# Register Jupyter kernel
+# Optional: register a Jupyter kernel (VS Code can use .venv directly)
 python -m ipykernel install --user --name data_churn --display-name "Python (data_churn)"
 ```
 
-The original notebook (`Churn_DA.ipynb`) only requires `pandas numpy scikit-learn matplotlib seaborn`. The full stack is needed for the advanced notebook.
-
 ## Quick Start
 
-Open `Churn_DA_advanced.ipynb` — it contains all three phases with timing instrumentation and a complete comparison. Run all cells; expect ~9 minutes total.
+Open `Churn_DA.ipynb` — it contains all three phases with timing instrumentation and a complete comparison. Run all cells; expect ~3 minutes total.
 
 ## Key Findings
 
